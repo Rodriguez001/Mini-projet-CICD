@@ -17,7 +17,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: Hello world Deploy
+name: Helloworld-Deploy
 
 on:
   push:
@@ -63,20 +63,15 @@ jobs:
       run: npm install
         npm run build --if-present
         npm run test --if-present
-    # Generate the README.md file
-    - name: Generate README.md file
-      run: node .github/dynamic-rendering/render.js
-    - name: Commit and Push new README.md to the repository
-      uses: actions-js/push@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Lint  
+      run: npm run lint
   build:
     needs: [rendering]
     name: Build
     runs-on: ubuntu-latest
     steps:
     # Checkout from main
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     # Set nodejs
     
     # Set the agent to run Python 3.10
@@ -87,11 +82,8 @@ jobs:
     - name: Install requirements
       run: pip install -r requirements.txt
     # Build web project using jupyter-book
-    - name: Build Jupyter-Book
-      run: jupyter-book build .
-    # Copy iframes where we want to have iframes
-    - name: Copy iframes from compiled notebooks to website
-      run: python .github/scripts/copy_iframes.py . docs/
+    - name: Build app  
+      run: npm run build:prod
     # Upload the artifact to be used in next job
     - uses: actions/upload-artifact@v3
       with:
