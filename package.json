@@ -2,7 +2,7 @@
   "name": "hello-world",
   "version": "0.0.0",
   "scripts": {
-    "lint": "eslint src/app --ext .ts",
+    "lint": "eslint src/ --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "ng": "ng",
     "start": "ng serve",
